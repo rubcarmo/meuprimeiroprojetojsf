@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsf/jstl/core">
+
+<h:head>
+	<title>Cadastro de Usuário</title>
+</h:head>
+
+<h:body>
+	<h:outputText
+		value="Olá #{facesContext.externalContext.sessionMap['usuariologado'].nome}! ">
+	</h:outputText>
+
+	<h:form>
+		<h:commandLink value="Administração" action="primeirapagina"
+			style="margin-left:1cm;"
+			rendered="#{pessoaBean.permiteAcesso('ADMINISTRADOR')}" />
+		<h:commandLink value="Lançamentos" action="lancamento"
+			style="margin-left:1cm;" />
+		<h:commandLink value="Trocar Usuário" action="index"
+			style="margin-left:1cm;" />
+	</h:form>
+
+	<h:form id="formPessoa">
+
+		<p:panelGrid columns="2">
+
+			<p:column>
+				<p:outputLabel value="Id:" />
+				<p:inputText value="#{pessoaBean.pessoa.id}" readonly="true" />
+			</p:column>
+
+			<p:column>
+				<p:outputLabel value="Nome:" />
+				<p:inputText value="#{pessoaBean.pessoa.nome}" />
+			</p:column>
+
+			<p:column>
+				<p:outputLabel value="SobreNome:" />
+				<p:inputText value="#{pessoaBean.pessoa.sobrenome}" />
+			</p:column>
+
+			<p:column>
+				<p:outputLabel value="Idade:" />
+				<p:inputText value="#{pessoaBean.pessoa.idade}" />
+			</p:column>
+
+			<p:column>
+				<p:outputLabel value="Login:" />
+				<p:inputText value="#{pessoaBean.pessoa.login}" />
+			</p:column>
+
+			<p:column>
+				<p:outputLabel value="Senha:" />
+				<p:password value="#{pessoaBean.pessoa.senha}" />
+			</p:column>
+
+			<p:column>
+				<p:outputLabel value="Sexo" />
+				<p:selectOneMenu id="campoSexo" value="#{pessoaBean.pessoa.sexo}"
+					required="false">
+					<f:selectItem itemLabel="[-Selecione-]" noSelectionOption="true" />
+					<f:selectItem itemValue="MASCULINO" itemLabel="Masculino" />
+					<f:selectItem itemValue="FEMININO" itemLabel="Feminino" />
+				</p:selectOneMenu>
+			</p:column>
+
+			<p:column>
+				<p:outputLabel value="Frameworks" />
+				<p:selectManyMenu id="campoframeworks" style="height:150px;"
+					value="#{pessoaBean.pessoa.frameworks}">
+					<f:selectItem itemLabel="Hibernate" itemValue="Hibernate" />
+					<f:selectItem itemLabel="Spring Mvc" itemValue="Spring Mvc" />
+					<f:selectItem itemLabel="Jpa" itemValue="Jpa" />
+					<f:selectItem itemLabel="PrimeFaces" itemValue="PrimeFaces" />
+					<f:selectItem itemLabel="JSF" itemValue="JSF" />
+				</p:selectManyMenu>
+			</p:column>
+
+			<p:column  headerText="Ativo">
+				<p:selectBooleanCheckbox value="#{pessoaBean.pessoa.ativo}" />
+			</p:column>
+
+			<p:column  headerText="Perfil">
+				<p:selectOneMenu id="perfil" value="#{pessoaBean.pessoa.perfilUser}"
+					required="false">
+					<f:selectItem itemLabel="[-Selecione-]" noSelectionOption="true" />
+					<f:selectItem itemValue="ADMINISTRADOR" itemLabel="Administrador" />
+					<f:selectItem itemValue="SECRETARIO" itemLabel="Secretário" />
+					<f:selectItem itemValue="RECEPCIONISTA" itemLabel="Recepcionista" />
+				</p:selectOneMenu>
+			</p:column>
+
+		</p:panelGrid>
+
+		<p:commandButton value="Salvar" action="#{pessoaBean.salvar}"
+			image="/resources/img/salvar.png"></p:commandButton>
+		<p:commandButton value="Novo" action="#{pessoaBean.novo}"
+			image="/resources/img/new_add_user_16734.png"></p:commandButton>
+		<p:commandButton value="Remove" action="#{pessoaBean.remove}"
+			image="/resources/img/excluir.png"></p:commandButton>
+		<p:commandButton style="margin-left:1cm;" value="Limpar" type="reset"
+			title="Limpar"></p:commandButton>
+
+
+		<p:dataTable value="#{pessoaBean.pessoas}" var="pessoa" border="3"
+			cellpadding="5">
+
+
+			<p:column headerText="ID">
+				<h:outputText value="#{pessoa.id}" />
+			</p:column>
+			<p:column headerText="NOME">
+				<h:outputText value="#{pessoa.nome}" />
+			</p:column>
+			<p:column headerText="Sobrenome">
+				<h:outputText value="#{pessoa.sobrenome}" />
+			</p:column>
+			<p:column headerText="Idade">
+				<h:outputText value="#{pessoa.idade}" />
+			</p:column>
+
+			<p:column headerText="Login">
+				<h:outputText value="#{pessoa.login}" />
+			</p:column>
+
+			<p:column headerText="Perfil">
+				<h:outputText value="#{pessoa.perfilUser}" />
+			</p:column>
+
+			<p:column headerText="Ação">
+				<h:commandLink value="Editar" style="width:200px">
+					<f:setPropertyActionListener target="#{pessoaBean.pessoa}" value="#{pessoa}" />
+				</h:commandLink>
+			</p:column>
+
+			<p:column>
+				<h:outputLabel value="         " />
+
+				<h:commandLink value="Excluir" action="#{pessoaBean.remove}">
+					<f:setPropertyActionListener target="#{pessoaBean.pessoa}"
+						value="#{pessoa}" />
+
+				</h:commandLink>
+			</p:column>
+
+		</p:dataTable>
+
+	</h:form>
+
+</h:body>
+
+</html>
